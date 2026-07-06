@@ -1,0 +1,4 @@
+# Exclude repo-specific files from chezmoi managed state
+README.md
+LICENSE
+.git
