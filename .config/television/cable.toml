@@ -1,5 +1,6 @@
 # .config/television/cable.toml
 # Television custom channel definitions
+# Fast fuzzy discovery across repos, containers, and vaults
 
 [[channels]]
 name = "git-repos"
@@ -9,7 +10,8 @@ preview = "ls -la {}"
 [[channels]]
 name = "docker-containers"
 command = "docker ps --format '{{.Names}}'"
-preview = "docker inspect {}"
+# Scoped preview: status + ports only (avoids verbose inspect output)
+preview = "docker inspect {} | jq '.[0] | {Status: .State.Status, Ports: .NetworkSettings.Ports}'"
 
 [[channels]]
 name = "docker-images"
@@ -21,8 +23,15 @@ command = "fd -t f . ~/vault-memory --exclude .git"
 preview = "bat --color=always {}"
 
 [[channels]]
+# Filtered to avoid leaking secrets - strips KEY/TOKEN/SECRET/PASSWORD etc.
 name = "env-vars"
-command = "env"
+command = "env | grep -Ev '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)'"
+
+[[channels]]
+# Opens lazydocker TUI - select this entry and press Enter from your shell
+name = "lazydocker"
+command = "printf 'open lazydocker\n'"
+preview = "echo 'Press enter to launch lazydocker from your shell'"
 
 [[channels]]
 name = "mise-tools"
