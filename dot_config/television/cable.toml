@@ -1,37 +1,47 @@
 # dot_config/television/cable.toml
 # Television custom channel definitions
 # Destination: ~/.config/television/cable.toml
+#
+# PATH RULE:
+#   ~/projects        = WSL ext4 — primary dev, full native I/O
+#   ~/vault-memory    = WSL ext4 — agent memory on Linux side
+#   /mnt/c/...        = Windows NTFS — read-only reference only
 
+# ── Project discovery ────────────────────────────────────────────
 [[channels]]
-name = "git-repos"
+name    = "git-repos"
+# Searches ~/projects on WSL ext4 — NOT /mnt/c
 command = "fd -t d -H .git ~/projects --max-depth 3 | sed 's/\/.git//'"
 preview = "ls -la {}"
 
+# ── Vault / knowledge base ────────────────────────────────────────
 [[channels]]
-name = "docker-containers"
+name    = "vault-memory"
+# vault-memory cloned onto WSL ext4 via bootstrap script
+command = "fd -t f . ~/vault-memory --exclude .git"
+preview = "bat --color=always {}"
+
+# ── Environment variables (filtered) ─────────────────────────────
+[[channels]]
+# Filtered to avoid leaking secrets
+name    = "env-vars"
+command = "env | grep -Ev '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)'"
+preview = "echo {}"
+
+# ── Docker ──────────────────────────────────────────────────────────
+[[channels]]
+name    = "docker-containers"
 command = "docker ps --format '{{.Names}}'"
 # Scoped preview: status + ports only (avoids verbose inspect output)
 preview = "docker inspect {} | jq '.[0] | {Status: .State.Status, Ports: .NetworkSettings.Ports}'"
 
 [[channels]]
-name = "docker-images"
+name    = "docker-images"
 command = "docker images --format '{{.Repository}}:{{.Tag}}'"
+preview = "docker inspect {} | jq '.[0] | {Created: .Created, Size: .Size}'"
 
+# ── lazydocker TUI launcher ─────────────────────────────────────────
 [[channels]]
-name = "vault-memory"
-command = "fd -t f . ~/vault-memory --exclude .git"
-preview = "bat --color=always {}"
-
-[[channels]]
-# Filtered to avoid leaking secrets
-name = "env-vars"
-command = "env | grep -Ev '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)'"
-
-[[channels]]
-name = "lazydocker"
-command = "printf 'open lazydocker\n'"
-preview = "echo 'Press enter to launch lazydocker from your shell'"
-
-[[channels]]
-name = "mise-tools"
-command = "mise list"
+name    = "lazydocker"
+command = "docker ps --format '{{.Names}}'"
+preview = "docker stats {} --no-stream --format 'CPU: {{.CPUPerc}}  MEM: {{.MemUsage}}'"
