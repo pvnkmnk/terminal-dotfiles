@@ -1,15 +1,30 @@
 // .config/zellij/config.kdl
 // Zellij core configuration - Zellij 0.44+
+//
+// KEY REFERENCE:
+// ---------------------------------------------------------------
+// Alt+Left/Right/Up/Down  Move pane focus
+// Ctrl+p then d/r         Open pane (down/right split)
+// Ctrl+p then x           Close pane
+// Ctrl+p then f           Float/embed pane toggle
+// Alt+n                   New pane
+// Ctrl+o then d           Detach session
+// Ctrl+q                  Quit Zellij
+// See full docs: https://zellij.dev/documentation/keybindings
+// ---------------------------------------------------------------
 
 keybinds {
     normal {
-        bind "Alt Left" { MoveFocus "Left"; }
+        bind "Alt Left"  { MoveFocus "Left"; }
         bind "Alt Right" { MoveFocus "Right"; }
-        bind "Alt Up" { MoveFocus "Up"; }
-        bind "Alt Down" { MoveFocus "Down"; }
+        bind "Alt Up"    { MoveFocus "Up"; }
+        bind "Alt Down"  { MoveFocus "Down"; }
     }
 }
 
+// zjstatus plugin - pinned to v0.19.1
+// Download: https://github.com/dj95/zjstatus/releases/download/v0.19.1/zjstatus.wasm
+// Place at: ~/.config/zellij/plugins/zjstatus.wasm
 plugins {
     tab-bar location="zellij:tab-bar"
     status-bar location="file:~/.config/zellij/plugins/zjstatus.wasm" {
