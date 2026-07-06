@@ -1,0 +1,29 @@
+# .config/television/cable.toml
+# Television custom channel definitions
+
+[[channels]]
+name = "git-repos"
+command = "fd -t d -H .git ~/projects --max-depth 3 | sed 's/\/.git//'"
+preview = "ls -la {}"
+
+[[channels]]
+name = "docker-containers"
+command = "docker ps --format '{{.Names}}'"
+preview = "docker inspect {}"
+
+[[channels]]
+name = "docker-images"
+command = "docker images --format '{{.Repository}}:{{.Tag}}'"
+
+[[channels]]
+name = "vault-memory"
+command = "fd -t f . ~/vault-memory --exclude .git"
+preview = "bat --color=always {}"
+
+[[channels]]
+name = "env-vars"
+command = "env"
+
+[[channels]]
+name = "mise-tools"
+command = "mise list"
