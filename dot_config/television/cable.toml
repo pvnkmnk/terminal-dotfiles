@@ -1,0 +1,37 @@
+# dot_config/television/cable.toml
+# Television custom channel definitions
+# Destination: ~/.config/television/cable.toml
+
+[[channels]]
+name = "git-repos"
+command = "fd -t d -H .git ~/projects --max-depth 3 | sed 's/\/.git//'"
+preview = "ls -la {}"
+
+[[channels]]
+name = "docker-containers"
+command = "docker ps --format '{{.Names}}'"
+# Scoped preview: status + ports only (avoids verbose inspect output)
+preview = "docker inspect {} | jq '.[0] | {Status: .State.Status, Ports: .NetworkSettings.Ports}'"
+
+[[channels]]
+name = "docker-images"
+command = "docker images --format '{{.Repository}}:{{.Tag}}'"
+
+[[channels]]
+name = "vault-memory"
+command = "fd -t f . ~/vault-memory --exclude .git"
+preview = "bat --color=always {}"
+
+[[channels]]
+# Filtered to avoid leaking secrets
+name = "env-vars"
+command = "env | grep -Ev '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)'"
+
+[[channels]]
+name = "lazydocker"
+command = "printf 'open lazydocker\n'"
+preview = "echo 'Press enter to launch lazydocker from your shell'"
+
+[[channels]]
+name = "mise-tools"
+command = "mise list"
