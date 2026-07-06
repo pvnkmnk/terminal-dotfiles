@@ -1,0 +1,76 @@
+# .chezmoidata/packages.toml
+# Single source of truth for all package lists across Windows + WSL
+# Referenced via {{ .packages.* }} in .chezmoiscripts templates
+
+[windows.scoop]
+packages = [
+    "wezterm",
+    "zellij",
+    "helix",
+    "television",
+    "mise",
+    "lazygit",
+    "fzf",
+    "zoxide",
+    "atuin",
+    "bat",
+    "eza",
+    "ripgrep",
+    "fd",
+    "delta",
+    "procs",
+    "xh",
+    "jq",
+    "yq",
+    "nushell",
+    "opencode"
+]
+
+[wsl.apt]
+packages = [
+    "build-essential",
+    "curl",
+    "git",
+    "unzip",
+    "jq",
+    "ca-certificates",
+    "gnupg",
+    "pkg-config",
+    "libssl-dev",
+    "fzf"
+]
+
+# Installed via cargo inside WSL — native Linux binaries, always current
+[wsl.cargo]
+packages = [
+    "zellij",
+    "helix",
+    "television",
+    "fd-find",
+    "ripgrep",
+    "bat",
+    "eza",
+    "zoxide",
+    "git-delta",
+    "xh",
+    "atuin"
+]
+
+# mise-managed runtimes inside WSL
+[wsl.mise]
+tools = [
+    "node@lts",
+    "python@3.12",
+    "rust@stable",
+    "go@latest"
+]
+
+# Primary repos — cloned directly onto WSL ext4 filesystem
+# NEVER symlinked from /mnt/c — full native Linux I/O
+[wsl.repos]
+projects_root = "~/projects"
+repos = [
+    "git@github.com:pvnkmnk/vault-memory.git",
+    "git@github.com:pvnkmnk/djinn-netrunner.git",
+    "git@github.com:pvnkmnk/terminal-dotfiles.git"
+]
