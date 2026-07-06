@@ -6,15 +6,17 @@
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
-  name = {{ promptStringOnce . "name" "Full name" | quote }}
-  email = {{ promptStringOnce . "email" "Email address" | quote }}
-  hostname = {{ .chezmoi.hostname | quote }}
-  os = {{ .chezmoi.os | quote }}
+    name              = {{ promptStringOnce . "name"              "Full name"                                           | quote }}
+    email             = {{ promptStringOnce . "email"             "Email address"                                       | quote }}
+    hostname          = {{ .chezmoi.hostname | quote }}
+    os                = {{ .chezmoi.os       | quote }}
+    wsl_distro        = {{ promptStringOnce . "wsl_distro"        "WSL distro name (e.g. Ubuntu-24.04)"                | quote }}
+    win_projects_root = {{ promptStringOnce . "win_projects_root" "Windows projects path (e.g. C:\\Users\\pvnkmnk\\projects)" | quote }}
 
 [git]
-  # Set to true to auto-commit + auto-push changes on `chezmoi apply`
-  autoCommit = false
-  autoPush = false
+    # Set to true to auto-commit + auto-push on `chezmoi apply`
+    autoCommit = false
+    autoPush   = false
 
 [diff]
-  pager = "less -R"
+    pager = "less -R"
