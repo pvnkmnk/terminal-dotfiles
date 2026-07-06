@@ -1,16 +1,24 @@
 // .config/zellij/layouts/default.kdl
 // Default dev workspace layout
 // Opens: Helix (left) | lazygit + opencode + logs (right)
+// Launch: Start-DevSession -Project default (from PowerShell profile)
 
 layout {
     pane split_direction="vertical" {
+        // Left pane: Helix editor, starts in project root
         pane command="hx" {
             size "60%"
+            cwd "/projects"
         }
+        // Right pane: tooling stack
         pane split_direction="horizontal" {
-            pane command="lazygit"
+            pane command="lazygit" {
+                cwd "/projects"
+            }
             pane command="opencode"
-            pane command="tail" args="-f" "logs.txt" {
+            // Log tail - uses absolute path to avoid ambiguity
+            // Adjust to your project's actual log file
+            pane command="tail" args="-f" "$HOME/projects/logs/app.log" {
                 start_suspended true
             }
         }
