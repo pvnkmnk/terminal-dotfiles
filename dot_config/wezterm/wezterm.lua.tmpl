@@ -1,0 +1,51 @@
+-- dot_config/wezterm/wezterm.lua.tmpl
+-- WezTerm configuration — chezmoi template
+-- Destination: ~/.config/wezterm/wezterm.lua
+-- Template variables: .chezmoi.os, .chezmoi.hostname
+
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+-- GPU acceleration
+-- Preferred; fallback to OpenGL: config.front_end = 'OpenGL'
+config.front_end = 'WebGpu'
+
+-- Font
+config.font = wezterm.font('JetBrainsMono Nerd Font')
+config.font_size = 13.0
+
+-- Color scheme (Catppuccin Mocha — unified across WezTerm + Zellij + Helix)
+config.color_scheme = 'Catppuccin Mocha'
+
+-- Window appearance
+config.window_background_opacity = 0.95
+-- text_background_opacity must be set when window_background_opacity < 1.0
+config.text_background_opacity = 1.0
+config.window_padding = {
+  left = 4,
+  right = 4,
+  top = 4,
+  bottom = 4,
+}
+
+-- Auto-launch Zellij unless WEZTERM_NO_ZELLIJ is set
+-- Use: $env:WEZTERM_NO_ZELLIJ=1 (Windows) or WEZTERM_NO_ZELLIJ=1 (Unix)
+-- to start a plain shell instead
+if os.getenv('WEZTERM_NO_ZELLIJ') == nil then
+{{- if eq .chezmoi.os "windows" }}
+  -- Windows: Zellij 0.44+ ships a native Windows binary
+  config.default_prog = { 'zellij', '-l', 'welcome' }
+{{- else }}
+  -- Linux / macOS
+  config.default_prog = { 'zellij', '--layout', 'welcome' }
+{{- end }}
+end
+
+-- Tab bar
+config.hide_tab_bar_if_only_one_tab = true
+config.use_fancy_tab_bar = false
+
+-- Scrollback
+config.scrollback_lines = 10000
+
+return config
