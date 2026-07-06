@@ -1,0 +1,26 @@
+// .config/zellij/config.kdl
+// Zellij core configuration - Zellij 0.44+
+
+keybinds {
+    normal {
+        bind "Alt Left" { MoveFocus "Left"; }
+        bind "Alt Right" { MoveFocus "Right"; }
+        bind "Alt Up" { MoveFocus "Up"; }
+        bind "Alt Down" { MoveFocus "Down"; }
+    }
+}
+
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+        format_left  "{mode} #[fg=#89B4FA,bold]{session}"
+        format_right "{tabs}"
+        hide_frame_for_single_pane "true"
+    }
+}
+
+theme "catppuccin-mocha"
+pane_frames false
+simplified_ui true
+session_serialization true
+auto_layout true
