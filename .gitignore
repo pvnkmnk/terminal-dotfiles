@@ -1,0 +1,23 @@
+# .gitignore for terminal-dotfiles
+
+# Backup files
+*.bak
+*.swp
+*.orig
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets - never commit these
+.env
+.env.local
+.env.*.local
+*.secret
+
+# Compiled / generated
+*.wasm
+
+# Editor state
+.helix/
