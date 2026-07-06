@@ -1,7 +1,8 @@
 # .config/helix/config.toml
 # Helix editor configuration
+# Theme aligned to Catppuccin Mocha (matches WezTerm + Zellij theme)
 
-theme = "gruvbox"
+theme = "catppuccin_mocha"
 
 [editor]
 line-number = "relative"
@@ -27,6 +28,8 @@ right = ["diagnostics", "selections", "position", "file-encoding", "file-type"]
 display-messages = true
 
 [keys.normal]
+# Quick save
 "C-s" = ":w"
-"C-p" = "file_picker"
-"C-b" = "buffer_picker"
+# g-prefixed pickers avoid shadowing built-in motion keys
+# g+f = file picker, g+b = buffer picker
+"g" = { f = "file_picker", b = "buffer_picker" }
