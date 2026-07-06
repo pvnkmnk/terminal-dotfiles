@@ -1,0 +1,21 @@
+// .config/zellij/layouts/default.kdl
+// Default dev workspace layout
+// Opens: Helix (left) | lazygit + opencode + logs (right)
+
+layout {
+    pane split_direction="vertical" {
+        pane command="hx" {
+            size "60%"
+        }
+        pane split_direction="horizontal" {
+            pane command="lazygit"
+            pane command="opencode"
+            pane command="tail" args="-f" "logs.txt" {
+                start_suspended true
+            }
+        }
+    }
+    pane size=2 borderless=true {
+        plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {}
+    }
+}
