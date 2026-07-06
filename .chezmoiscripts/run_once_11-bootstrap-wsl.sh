@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+# run_once_11-bootstrap-wsl.sh
+# Full WSL2 Ubuntu bootstrap — runs on first chezmoi apply inside WSL
+# Installs all Linux tools, sets up mise runtimes, clones primary repos
+#
+# FILESYSTEM RULE: repos are cloned to ~/projects on ext4
+# NEVER use /mnt/c for active project work — 9P protocol overhead is 5-50x
+# /mnt/c is read-only reference only; all builds/git ops run on ext4
+
+set -euo pipefail
+
+echo ""
+echo "╔═════════════════════════════════════════════╗"
+echo "║    terminal-dotfiles — WSL bootstrap          ║"
+echo "╚═════════════════════════════════════════════╝"
+echo ""
+
+# ── 1. apt base packages ──────────────────────────────────
+echo "-> [1/6] apt base packages..."
+sudo apt-get update -qq
+sudo apt-get install -y \
+    build-essential curl git unzip jq \
+    ca-certificates gnupg pkg-config \
+    libssl-dev fzf 2>/dev/null
+echo "   [OK] apt done"
+
+# ── 2. Rust toolchain ────────────────────────────────────────────
+echo "-> [2/6] Rust toolchain..."
+if ! command -v cargo &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+        | sh -s -- -y --no-modify-path --quiet
+fi
+source "$HOME/.cargo/env"
+echo "   [OK] $(rustc --version)"
+
+# helper — skip if binary already present
+cargo_install() {
+    local crate=$1 bin=${2:-$1}
+    if command -v "$bin" &>/dev/null; then
+        echo "   $bin already present, skipping"
+    else
+        echo "   installing $crate..."
+        cargo install "$crate" --quiet
+    fi
+}
+
+echo "-> [2/6] cargo tools..."
+cargo_install zellij
+cargo_install helix            hx
+cargo_install television       tv
+cargo_install fd-find          fd
+cargo_install ripgrep          rg
+cargo_install bat
+cargo_install eza
+cargo_install zoxide
+cargo_install git-delta        delta
+cargo_install xh
+cargo_install atuin
+echo "   [OK] cargo tools done"
+
+# ── 3. mise ──────────────────────────────────────────────────────
+echo "-> [3/6] mise..."
+if ! command -v mise &>/dev/null; then
+    curl https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+mise trust --all 2>/dev/null || true
+mise install    2>/dev/null || true
+echo "   [OK] mise $(mise --version)"
+
+# ── 4. lazygit ──────────────────────────────────────────────────
+echo "-> [4/6] lazygit..."
+if ! command -v lazygit &>/dev/null; then
+    LG=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest \
+        | jq -r '.tag_name' | sed 's/v//')
+    curl -sLo /tmp/lazygit.tar.gz \
+        "https://github.com/jesseduffield/lazygit/releases/download/v${LG}/lazygit_${LG}_Linux_x86_64.tar.gz"
+    tar xf /tmp/lazygit.tar.gz -C /tmp lazygit
+    sudo mv /tmp/lazygit /usr/local/bin/lazygit
+    rm /tmp/lazygit.tar.gz
+fi
+echo "   [OK] lazygit $(lazygit --version 2>/dev/null | head -1)"
+
+# ── 5. opencode ─────────────────────────────────────────────────────
+echo "-> [5/6] opencode..."
+if ! command -v opencode &>/dev/null; then
+    curl -fsSL https://opencode.ai/install | bash
+fi
+echo "   [OK] opencode installed"
+
+# ── 6. Clone repos onto WSL ext4 filesystem ────────────────────────────
+# IMPORTANT: ~/projects is on ext4 — NOT /mnt/c
+# All git status, cargo build, npm install, rg/fd search
+# run at full Linux I/O speed with zero 9P boundary crossings
+echo "-> [6/6] Cloning repos onto WSL ext4 (~/projects)..."
+mkdir -p "$HOME/projects"
+
+clone_repo() {
+    local ssh_url=$1
+    local name
+    name=$(basename "$ssh_url" .git)
+    local dest="$HOME/projects/$name"
+
+    if [ -d "$dest/.git" ]; then
+        echo "   $name already exists at $dest, skipping"
+        return
+    fi
+
+    # Try SSH first; fall back to HTTPS if key not configured yet
+    if ssh -T git@github.com \
+           -o ConnectTimeout=4 \
+           -o StrictHostKeyChecking=no \
+           2>&1 | grep -q "successfully authenticated"; then
+        echo "   cloning $name via SSH -> $dest"
+        git clone "$ssh_url" "$dest"
+    else
+        local https_url
+        https_url=$(echo "$ssh_url" | sed 's|git@github.com:|https://github.com/|')
+        echo "   cloning $name via HTTPS -> $dest"
+        git clone "$https_url" "$dest"
+    fi
+}
+
+clone_repo "git@github.com:pvnkmnk/vault-memory.git"
+clone_repo "git@github.com:pvnkmnk/djinn-netrunner.git"
+clone_repo "git@github.com:pvnkmnk/terminal-dotfiles.git"
+
+echo ""
+echo "╔═════════════════════════════════════════════════════════════╗"
+echo "║  [OK] WSL bootstrap complete                                 ║"
+echo "║                                                             ║"
+echo "║  Projects on ext4:  ~/projects/                            ║"
+echo "║  Windows reference: /mnt/c (read-only, avoid hot paths)     ║"
+echo "║                                                             ║"
+echo "║  Start a session:   zellij --layout wsl-default             ║"
+echo "╚═════════════════════════════════════════════════════════════╝"
+echo ""
