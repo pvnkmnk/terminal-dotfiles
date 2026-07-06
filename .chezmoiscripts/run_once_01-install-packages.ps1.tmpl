@@ -1,0 +1,23 @@
+#Requires -Version 7.0
+# run_once_01-install-packages.ps1.tmpl
+# Installs core Windows terminal packages via Scoop
+# Package list sourced from .chezmoidata/packages.toml via chezmoi template
+# run_once: only executes on first chezmoi apply
+
+$packages = @(
+    {{- range .packages.windows.scoop.packages }}
+    "{{ . }}",
+    {{- end }}
+)
+
+foreach ($pkg in $packages) {
+    if (-not (Get-Command $pkg -ErrorAction SilentlyContinue)) {
+        Write-Host "-> Installing $pkg..."
+        scoop install $pkg
+    } else {
+        Write-Host "   $pkg already installed, skipping."
+    }
+}
+
+Write-Host ""
+Write-Host "[OK] Windows packages complete."
