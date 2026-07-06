@@ -1,0 +1,20 @@
+# .chezmoi.toml.tmpl
+# Chezmoi bootstrap config — generated on `chezmoi init`, not managed as a target
+# Template variables resolve before any other dotfile is applied
+# Docs: https://www.chezmoi.io/user-guide/setup/
+
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+  name = {{ promptStringOnce . "name" "Full name" | quote }}
+  email = {{ promptStringOnce . "email" "Email address" | quote }}
+  hostname = {{ .chezmoi.hostname | quote }}
+  os = {{ .chezmoi.os | quote }}
+
+[git]
+  # Set to true to auto-commit + auto-push changes on `chezmoi apply`
+  autoCommit = false
+  autoPush = false
+
+[diff]
+  pager = "less -R"
