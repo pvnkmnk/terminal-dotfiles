@@ -17,11 +17,16 @@ Managed with [chezmoi](https://www.chezmoi.io/) for reproducible, single-command
 
 ## Install
 
-### Prerequisites
+## Prerequisites
 
-- Windows 11
-- PowerShell 7+
-- [chezmoi](https://www.chezmoi.io/install/) installed
+This repo assumes the following are already installed on Windows before running `chezmoi apply`:
+
+- Windows 11 with **winget** available (pre-installed on current Windows 11 builds).
+- **WSL2 with your chosen distro already installed** (e.g. `wsl --install -d Ubuntu-24.04`).
+  This repo does NOT install WSL itself - `run_once_10-configure-wsl.ps1.tmpl` only verifies
+  your distro exists and then bootstraps chezmoi + this repo inside it automatically.
+  If the distro is missing, the script will print the exact `wsl --install` command to run
+  and stop - just run it once, then re-run `chezmoi apply`.
 
 ### Bootstrap
 

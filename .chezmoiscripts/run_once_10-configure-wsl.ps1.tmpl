@@ -1,0 +1,36 @@
+#Requires -Version 7.0
+# .chezmoiscripts/run_once_10-configure-wsl.ps1.tmpl
+#
+# ASSUMES WSL2 + your distro are already installed (see README prerequisites).
+# This script no longer runs `wsl --install` - it only:
+#   1. Verifies the configured distro exists and is reachable.
+#   2. Bootstraps chezmoi + this dotfiles repo inside it automatically.
+#
+# Renamed from "install-wsl" to "configure-wsl" to reflect the narrower scope.
+
+{{- if ne .chezmoi.os "windows" }}
+exit 0
+{{- end }}
+
+$distro = "{{ .wsl_distro }}"
+
+$wslList = wsl --list --quiet 2>$null
+if (-not ($wslList -match [regex]::Escape($distro))) {
+    Write-Host "[ERROR] WSL distro '$distro' was not found."
+    Write-Host "This repo assumes WSL2 + '$distro' are already installed."
+    Write-Host "Install it yourself first, e.g.:"
+    Write-Host "    wsl --install -d $distro"
+    Write-Host "Then re-run 'chezmoi apply'."
+    exit 1
+}
+
+Write-Host "-> Found WSL distro '$distro'. Bootstrapping chezmoi inside it..."
+$bootstrapCmd = 'sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/pvnkmnk/terminal-dotfiles.git'
+wsl.exe -d $distro -- bash -lc "$bootstrapCmd"
+
+Write-Host ""
+Write-Host "[OK] chezmoi applied inside $distro."
+Write-Host "Open a new WSL terminal from the Start Menu to use your configured shell."
+Write-Host "If the step above stalled waiting for a username/password prompt,"
+Write-Host "that means $distro had never been launched before - finish user"
+Write-Host "creation manually once, then re-run this script; it is safe to re-run."

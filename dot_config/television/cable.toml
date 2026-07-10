@@ -45,3 +45,19 @@ preview = "docker inspect {} | jq '.[0] | {Created: .Created, Size: .Size}'"
 name    = "lazydocker"
 command = "docker ps --format '{{.Names}}'"
 preview = "docker stats {} --no-stream --format 'CPU: {{.CPUPerc}}  MEM: {{.MemUsage}}'"
+
+# ── Extra channels (folded in from upgrade_refactor_report.md) ──────
+[[channels]]
+name = "git-branches"
+command = "git branch --all --format='%(refname:short)'"
+preview = "git log --oneline --graph --color=always '{}' | head -200"
+
+[[channels]]
+name = "tldr"
+command = "tldr --list"
+preview = "tldr --color always '{}'"
+
+[[channels]]
+name = "recent-files"
+command = "fd -t f --changed-within 7d ."
+preview = "bat --color=always '{}'"
