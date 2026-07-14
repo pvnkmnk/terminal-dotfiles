@@ -17,8 +17,19 @@ echo ""
 
 # ── 1. apt base packages ──────────────────────────────────
 echo "-> [1/6] apt base packages..."
-sudo apt-get update -qq
-sudo apt-get install -y {{ join " " .packages.wsl.apt.packages }} 2>/dev/null
+missing_pkgs=()
+for pkg in {{ join " " .packages.wsl.apt.packages }}; do
+    if ! dpkg -s "$pkg" &> /dev/null; then
+        missing_pkgs+=("$pkg")
+    fi
+done
+
+if [ ${#missing_pkgs[@]} -gt 0 ]; then
+    sudo apt-get update -qq
+    sudo apt-get install -y "${missing_pkgs[@]}"
+else
+    echo "   [OK] all apt packages already installed"
+fi
 echo "   [OK] apt done"
 
 # ── 2. Rust toolchain ────────────────────────────────────────────

@@ -21,7 +21,13 @@ keybinds {
         bind "Alt Up"    { MoveFocus "Up"; }
         bind "Alt Down"  { MoveFocus "Down"; }
     }
+    shared_except "locked" {
+        unbind "Ctrl q"
+        unbind "Ctrl o"
+        bind "Alt t" { Run "tv" { floating true; }; }
+    }
 }
+copy_clipboard "primary"
 
 // zjstatus plugin - pinned to v0.19.1
 // Binary fetched automatically via .chezmoiexternal.toml on chezmoi apply
