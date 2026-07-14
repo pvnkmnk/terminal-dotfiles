@@ -9,6 +9,7 @@ theme = "catppuccin_mocha"
 line-number = "relative"
 mouse = true
 auto-save = true
+auto-format = true
 completion-trigger-len = 1
 color-modes = true
 
@@ -31,6 +32,8 @@ display-messages = true
 [keys.normal]
 # Quick save
 "C-s" = ":w"
+# Suspend editor (useful in Zellij)
+"C-z" = "suspend"
 # g-prefixed pickers avoid shadowing built-in motion keys
 # g+f = file picker, g+b = buffer picker
 "g" = { f = "file_picker", b = "buffer_picker" }

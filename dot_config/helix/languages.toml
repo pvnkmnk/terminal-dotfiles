@@ -1,0 +1,10 @@
+# dot_config/helix/languages.toml
+# Language configurations and LSP setups
+
+[[language]]
+name = "markdown"
+language-servers = [ "marksman" ]
+
+[[language]]
+name = "toml"
+language-servers = [ "taplo" ]

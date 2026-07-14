@@ -68,8 +68,15 @@ if (Get-Command zoxide -ErrorAction SilentlyContinue) {
 }
 
 # -------------------------------------------------------
-# Startup banner - only in interactive shells (not scripts)
+# Startup banner & Interactive-only configs
 # -------------------------------------------------------
 if ($Host.Name -eq 'ConsoleHost') {
     Write-Host "{{ .name }} — terminal workflow loaded" -ForegroundColor Green
+
+    # Enable PSReadLine predictive intellisense safely
+    if (Get-Module -ListAvailable PSReadLine) {
+        Import-Module PSReadLine
+        Set-PSReadLineOption -PredictionSource History
+        Set-PSReadLineOption -PredictionViewStyle ListView
+    }
 }
