@@ -1,0 +1,4 @@
+[[channels]]
+name = "snippets"
+command = "fd -e md -e txt . ~/vault-memory/snippets"
+preview = "bat --color=always {}"

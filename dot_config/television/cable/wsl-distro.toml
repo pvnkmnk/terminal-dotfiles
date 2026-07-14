@@ -1,0 +1,4 @@
+[[channels]]
+name = "wsl-distro"
+command = "wsl.exe -l -v | grep -v 'NAME'"
+preview = "wsl.exe -d $(echo {} | awk '{print $1}') -- uname -a"

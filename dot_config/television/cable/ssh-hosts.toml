@@ -1,0 +1,4 @@
+[[channels]]
+name = "ssh-hosts"
+command = "grep -E '^Host ' ~/.ssh/config | awk '{print $2}' | grep -v '*'"
+preview = "grep -A 5 -E \"^Host {}$\" ~/.ssh/config"

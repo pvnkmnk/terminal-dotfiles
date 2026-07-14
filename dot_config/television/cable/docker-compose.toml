@@ -1,0 +1,4 @@
+[[channels]]
+name = "docker-compose"
+command = "fd 'docker-compose.yml$' ~/projects"
+preview = "bat --color=always {}"

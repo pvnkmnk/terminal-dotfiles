@@ -1,0 +1,4 @@
+[[channels]]
+name = "git-worktree"
+command = "git worktree list --porcelain | grep '^worktree ' | awk '{print $2}'"
+preview = "git -C {} log --oneline -5"

@@ -1,0 +1,4 @@
+[[channels]]
+name = "clipboard-history"
+command = "powershell.exe -command 'Get-Clipboard -Raw'"
+preview = "echo {}"
