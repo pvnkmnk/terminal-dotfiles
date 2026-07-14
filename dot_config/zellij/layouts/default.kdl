@@ -5,25 +5,21 @@
 
 layout {
     pane split_direction="vertical" {
-        // Left pane: Helix editor, starts in project root
+        // Left pane: Helix editor, inherits working directory
         pane command="hx" {
             size "60%"
-            cwd "/projects"
         }
         // Right pane: tooling stack
         pane split_direction="horizontal" {
-            pane command="lazygit" {
-                cwd "/projects"
-            }
+            pane command="lazygit"
             pane command="opencode"
-            // Log tail - absolute path avoids ambiguity
-            // Adjust to your project's actual log file
-            pane command="tail" args="-f" "$HOME/projects/logs/app.log" {
+            // Log tail — starts suspended, assumes standard logs folder in project
+            pane command="tail" args="-f" "logs/app.log" {
                 start_suspended true
             }
         }
     }
     pane size=2 borderless=true {
-        plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {}
+        plugin location="status-bar"
     }
 }

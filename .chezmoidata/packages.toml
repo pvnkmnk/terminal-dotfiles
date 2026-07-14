@@ -57,13 +57,11 @@ packages = [
 ]
 
 # mise-managed runtimes inside WSL
-[wsl.mise]
-tools = [
-    "node@lts",
-    "python@3.12",
-    "rust@stable",
-    "go@latest"
-]
+[wsl.mise.tools]
+node = "lts"
+python = "3.12"
+rust = "stable"
+go = "latest"
 
 # Primary repos — cloned directly onto WSL ext4 filesystem
 # NEVER symlinked from /mnt/c — full native Linux I/O

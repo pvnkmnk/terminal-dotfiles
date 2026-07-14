@@ -32,13 +32,8 @@ config.window_padding = {
 -- Use: $env:WEZTERM_NO_ZELLIJ=1 (Windows) or WEZTERM_NO_ZELLIJ=1 (Unix)
 -- to start a plain shell instead
 if os.getenv('WEZTERM_NO_ZELLIJ') == nil then
-{{- if eq .chezmoi.os "windows" }}
-  -- Windows: Zellij 0.44+ ships a native Windows binary
-  config.default_prog = { 'zellij', '-l', 'welcome' }
-{{- else }}
-  -- Linux / macOS
-  config.default_prog = { 'zellij', '--layout', 'welcome' }
-{{- end }}
+  -- Launches Zellij (inherits current directory, auto-loads default.kdl layout)
+  config.default_prog = { 'zellij' }
 end
 
 -- Tab bar
