@@ -1,4 +1,4 @@
 [[channels]]
 name = "ssh-hosts"
-command = """grep -E '^Host ' ~/.ssh/config 2>/dev/null | awk '{print $2}' | grep -v '*'"""
-preview = """grep -A 5 -E "^Host {}$" ~/.ssh/config"""
+command = """grep -i -E '^[[:space:]]*Host[[:space:]]' ~/.ssh/config 2>/dev/null | awk '{for (i=2; i<=NF; i++) print $i}' | grep -v '*'"""
+preview = """grep -i -A 5 -E "^[[:space:]]*Host {}$" ~/.ssh/config"""

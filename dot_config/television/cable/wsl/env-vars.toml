@@ -1,4 +1,4 @@
 [[channels]]
 name = "env-vars"
-command = """env | grep -Ev '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)'"""
+command = """env | grep -E '^(USER|HOME|PATH|LANG|PWD|TERM|SHELL|LOGNAME|XDG_|COLORTERM|WSL_)'"""
 preview = """echo {}"""
