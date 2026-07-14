@@ -1,0 +1,4 @@
+[[channels]]
+name = "git-repos"
+command = """fd -H -t d "^\.git$" "${PROJECTS_DIR:-$HOME/projects}" | sed "s/\/.git$//""""
+preview = """ls -la {}"""

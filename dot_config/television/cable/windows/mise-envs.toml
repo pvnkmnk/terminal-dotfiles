@@ -1,0 +1,4 @@
+[[channels]]
+name = "mise-envs"
+command = """if (Get-Command mise -ErrorAction SilentlyContinue) { mise ls } else { 'mise not found' }"""
+preview = """echo '{}'"""

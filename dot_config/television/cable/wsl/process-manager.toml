@@ -1,0 +1,4 @@
+[[channels]]
+name = "process-manager"
+command = """ps -eo pid,ppid,cmd,%cpu,%mem --sort=-%cpu --no-headers | head -n 50"""
+preview = """echo 'Kill with: kill -15 '$(echo "{}" | awk '{print $1}')' (use kill -9 if needed)'"""

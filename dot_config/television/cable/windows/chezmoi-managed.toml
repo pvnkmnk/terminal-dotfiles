@@ -1,0 +1,4 @@
+[[channels]]
+name = "chezmoi-managed"
+command = """if (Get-Command chezmoi -ErrorAction SilentlyContinue) { chezmoi managed } else { 'chezmoi not found' }"""
+preview = """if (Get-Command chezmoi -ErrorAction SilentlyContinue) { chezmoi cat {} } else { 'chezmoi not found' }"""

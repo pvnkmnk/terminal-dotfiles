@@ -1,0 +1,4 @@
+[[channels]]
+name = "docker-images"
+command = """if (Get-Command docker -ErrorAction SilentlyContinue) { docker images --format '{{.Repository}}:{{.Tag}}' } else { 'Docker not found' }"""
+preview = """if (Get-Command docker -ErrorAction SilentlyContinue) { docker inspect {} } else { 'Docker not found' }"""

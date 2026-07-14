@@ -1,0 +1,4 @@
+[[channels]]
+name = "wsl-distros"
+command = """if (Get-Command wsl.exe -ErrorAction SilentlyContinue) { wsl.exe -l -q } else { 'WSL not found' }"""
+preview = """wsl.exe -d "{}" -- uname -a"""

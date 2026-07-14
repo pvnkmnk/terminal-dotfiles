@@ -1,0 +1,4 @@
+[[channels]]
+name = "chezmoi-managed"
+command = """command -v chezmoi >/dev/null && chezmoi managed || echo 'chezmoi not found'"""
+preview = """command -v chezmoi >/dev/null && chezmoi cat {} | head -n 30"""

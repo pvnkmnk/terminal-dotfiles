@@ -81,7 +81,22 @@ terminal-dotfiles/
 - **WezTerm**: `~/.config/wezterm/wezterm.lua` — GPU-accelerated terminal with custom appearance and Zellij auto-start
 - **Zellij**: `~/.config/zellij/` — layout and plugin config including dynamic status bar formatting
 - **Helix**: `~/.config/helix/config.toml` — modal editor with LSP support
-- **Television**: `~/.config/television/cable.toml` — custom fuzzy search channels
+- **Television**: `~/.config/television/cable/` — split custom fuzzy search channels (`windows/` and `wsl/`)
 - **Mise**: `~/.config/mise/config.toml` — global language toolchains (Node, Python, Go, Rust)
 - **PowerShell**: `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` — shell profile with dynamic mise activation
+
+### Television Channels (Cable)
+
+The Television TUI configuration separates Windows and WSL workflows to provide native performance and commands:
+- `dot_config/television/cable/windows/*.toml`: Native PowerShell commands.
+- `dot_config/television/cable/wsl/*.toml`: Native Linux/WSL commands.
+
+**Dependencies & Graceful Degradation:**
+Optional tools (e.g., `docker`, `gh`, `mise`, `chezmoi`) will display an error message in the preview if they are not installed, rather than failing silently or causing application crashes.
+
+**Environment Variables Required:**
+- `$PROJECTS_DIR` (Windows) / `$PROJECTS_DIR` (WSL): Used by `git-repos`.
+- `$VAULT_DIR` (Windows) / `$VAULT_DIR` (WSL): Used by `snippets`.
+
+*Note: All previews and commands default to read-only views. Actions are explicit.*
 
