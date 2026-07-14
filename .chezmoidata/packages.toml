@@ -41,20 +41,18 @@ packages = [
 ]
 
 # Installed via cargo inside WSL — native Linux binaries, always current
-[wsl.cargo]
-packages = [
-    "zellij",
-    "helix",
-    "television",
-    "fd-find",
-    "ripgrep",
-    "bat",
-    "eza",
-    "zoxide",
-    "git-delta",
-    "xh",
-    "atuin"
-]
+[wsl.cargo.packages]
+zellij = "zellij"
+helix = "hx"
+television = "tv"
+fd-find = "fd"
+ripgrep = "rg"
+bat = "bat"
+eza = "eza"
+zoxide = "zoxide"
+git-delta = "delta"
+xh = "xh"
+atuin = "atuin"
 
 # mise-managed runtimes inside WSL
 [wsl.mise.tools]

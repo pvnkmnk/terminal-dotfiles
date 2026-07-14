@@ -78,7 +78,7 @@ terminal-dotfiles/
 
 ## Configuration Notes
 
-- **WezTerm**: `~/.config/wezterm/wezterm.lua` — GPU-accelerated terminal with custom appearance and zellij auto-start
+- **WezTerm**: `~/.config/wezterm/wezterm.lua` — GPU-accelerated terminal with custom appearance and Zellij auto-start
 - **Zellij**: `~/.config/zellij/` — layout and plugin config including dynamic status bar formatting
 - **Helix**: `~/.config/helix/config.toml` — modal editor with LSP support
 - **Television**: `~/.config/television/cable.toml` — custom fuzzy search channels

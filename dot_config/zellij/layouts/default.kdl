@@ -14,7 +14,8 @@ layout {
             pane command="lazygit"
             pane command="opencode"
             // Log tail — starts suspended, assumes standard logs folder in project
-            pane command="tail" args="-f" "logs/app.log" {
+            pane command="tail" {
+                args "-f" "logs/app.log"
                 start_suspended true
             }
         }

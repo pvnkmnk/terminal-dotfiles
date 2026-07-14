@@ -18,10 +18,7 @@ echo ""
 # ── 1. apt base packages ──────────────────────────────────
 echo "-> [1/6] apt base packages..."
 sudo apt-get update -qq
-sudo apt-get install -y \
-    {{ range .packages.wsl.apt.packages -}}
-    {{ . }} \
-    {{ end }}2>/dev/null
+sudo apt-get install -y {{ join " " .packages.wsl.apt.packages }} 2>/dev/null
 echo "   [OK] apt done"
 
 # ── 2. Rust toolchain ────────────────────────────────────────────
@@ -45,18 +42,8 @@ cargo_install() {
 }
 
 echo "-> [2/6] cargo tools..."
-{{ range .packages.wsl.cargo.packages -}}
-{{- if eq . "helix" -}}
-cargo_install helix hx
-{{- else if eq . "television" -}}
-cargo_install television tv
-{{- else if eq . "fd-find" -}}
-cargo_install fd-find fd
-{{- else if eq . "git-delta" -}}
-cargo_install git-delta delta
-{{- else -}}
-cargo_install {{ . }}
-{{- end }}
+{{ range $crate, $bin := .packages.wsl.cargo.packages -}}
+cargo_install {{ $crate }} {{ $bin }}
 {{ end -}}
 echo "   [OK] cargo tools done"
 
