@@ -18,10 +18,7 @@ echo ""
 # ── 1. apt base packages ──────────────────────────────────
 echo "-> [1/6] apt base packages..."
 sudo apt-get update -qq
-sudo apt-get install -y \
-    build-essential curl git unzip jq \
-    ca-certificates gnupg pkg-config \
-    libssl-dev fzf 2>/dev/null
+sudo apt-get install -y {{ join " " .packages.wsl.apt.packages }} 2>/dev/null
 echo "   [OK] apt done"
 
 # ── 2. Rust toolchain ────────────────────────────────────────────
@@ -45,17 +42,9 @@ cargo_install() {
 }
 
 echo "-> [2/6] cargo tools..."
-cargo_install zellij
-cargo_install helix            hx
-cargo_install television       tv
-cargo_install fd-find          fd
-cargo_install ripgrep          rg
-cargo_install bat
-cargo_install eza
-cargo_install zoxide
-cargo_install git-delta        delta
-cargo_install xh
-cargo_install atuin
+{{ range $crate, $bin := .packages.wsl.cargo.packages -}}
+cargo_install {{ $crate }} {{ $bin }}
+{{ end -}}
 echo "   [OK] cargo tools done"
 
 # ── 3. mise ──────────────────────────────────────────────────────
@@ -121,9 +110,9 @@ clone_repo() {
     fi
 }
 
-clone_repo "git@github.com:pvnkmnk/vault-memory.git"
-clone_repo "git@github.com:pvnkmnk/djinn-netrunner.git"
-clone_repo "git@github.com:pvnkmnk/terminal-dotfiles.git"
+{{ range .packages.wsl.repos.repos -}}
+clone_repo "{{ . }}"
+{{ end -}}
 
 echo ""
 echo "╔═════════════════════════════════════════════════════════════╗"

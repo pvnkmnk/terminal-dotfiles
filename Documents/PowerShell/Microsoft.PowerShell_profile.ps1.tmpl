@@ -57,10 +57,9 @@ function vault { Set-Location "$HOME\vault-memory" }
 # -------------------------------------------------------
 # Tool initializations
 # -------------------------------------------------------
-# Idempotent PATH prepend: only adds mise shims if not already present
-$misePath = "$HOME\.local\share\mise\shims"
-if ($env:PATH -notlike "*$misePath*") {
-    $env:PATH = "$misePath;$env:PATH"
+# mise activation (manages PATH shims and environment dynamically)
+if (Get-Command mise -ErrorAction SilentlyContinue) {
+    Invoke-Expression (mise activate pwsh | Out-String)
 }
 
 # zoxide (smart cd)

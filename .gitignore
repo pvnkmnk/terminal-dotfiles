@@ -21,3 +21,8 @@ desktop.ini
 
 # Editor state
 .helix/
+
+# Agentic coding files
+.agents/
+skills-lock.json
+

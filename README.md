@@ -46,22 +46,31 @@ This single command will:
 
 ```
 terminal-dotfiles/
+├── .chezmoidata/
+│   └── packages.toml       # Single source of truth for all tools and repos
 ├── .chezmoiscripts/
 │   ├── run_once_00-install-scoop.ps1
-│   ├── run_once_01-install-packages.ps1
-│   └── run_once_02-setup-mise.ps1
+│   ├── run_once_01-install-packages.ps1.tmpl
+│   ├── run_once_02-setup-mise.ps1
+│   ├── run_once_10-configure-wsl.ps1.tmpl
+│   └── run_once_11-bootstrap-wsl.sh.tmpl
 ├── dot_config/
 │   ├── helix/
 │   │   └── config.toml
+│   ├── mise/
+│   │   └── config.toml.tmpl
 │   ├── television/
 │   │   └── cable.toml
+│   ├── wezterm/
+│   │   └── wezterm.lua.tmpl
 │   └── zellij/
 │       ├── config.kdl
+│       ├── layouts/
+│       │   └── default.kdl
 │       └── plugins/         # zjstatus.wasm fetched via .chezmoiexternal.toml
 ├── Documents/
 │   └── PowerShell/
-│       └── Microsoft.PowerShell_profile.ps1
-├── dot_wezterm.lua
+│       └── Microsoft.PowerShell_profile.ps1.tmpl
 ├── .chezmoi.toml.tmpl
 ├── .chezmoiexternal.toml
 └── .chezmoiignore
@@ -69,8 +78,10 @@ terminal-dotfiles/
 
 ## Configuration Notes
 
-- **WezTerm**: `~/.wezterm.lua` — GPU-accelerated terminal with custom keybinds and appearance
-- **Zellij**: `~/.config/zellij/` — layout and plugin config including zjstatus status bar
+- **WezTerm**: `~/.config/wezterm/wezterm.lua` — GPU-accelerated terminal with custom appearance and Zellij auto-start
+- **Zellij**: `~/.config/zellij/` — layout and plugin config including dynamic status bar formatting
 - **Helix**: `~/.config/helix/config.toml` — modal editor with LSP support
 - **Television**: `~/.config/television/cable.toml` — custom fuzzy search channels
-- **PowerShell**: `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` — shell profile with mise activation
+- **Mise**: `~/.config/mise/config.toml` — global language toolchains (Node, Python, Go, Rust)
+- **PowerShell**: `~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1` — shell profile with dynamic mise activation
+

@@ -1,0 +1,8 @@
+# dot_config/mise/config.toml.tmpl
+# Global mise configuration — chezmoi template
+# Destination: ~/.config/mise/config.toml
+
+[tools]
+{{ range $tool, $version := .packages.wsl.mise.tools -}}
+{{ $tool }} = "{{ $version }}"
+{{ end -}}
