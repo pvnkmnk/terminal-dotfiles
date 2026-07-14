@@ -1,0 +1,4 @@
+[[channels]]
+name = "clipboard-history"
+command = """Get-Clipboard -Raw"""
+preview = """Get-Clipboard -Raw"""

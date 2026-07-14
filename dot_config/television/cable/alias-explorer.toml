@@ -1,4 +1,0 @@
-[[channels]]
-name = "alias-explorer"
-command = "alias | awk -F'=' '{print $1}' | sed 's/alias //'"
-preview = "alias {}"

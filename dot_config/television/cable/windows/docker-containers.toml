@@ -1,0 +1,4 @@
+[[channels]]
+name = "docker-containers"
+command = """if (Get-Command docker -ErrorAction SilentlyContinue) { docker ps --format '{{.Names}}' } else { 'Docker not found' }"""
+preview = """if (Get-Command docker -ErrorAction SilentlyContinue) { docker inspect {} } else { 'Docker not found' }"""

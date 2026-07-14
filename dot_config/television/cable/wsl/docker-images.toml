@@ -1,0 +1,4 @@
+[[channels]]
+name = "docker-images"
+command = """command -v docker >/dev/null && docker images --format '{{.Repository}}:{{.Tag}}' || echo 'Docker not installed'"""
+preview = """command -v docker >/dev/null && docker inspect {} | jq '.[0] | {Created: .Created, Size: .Size}'"""

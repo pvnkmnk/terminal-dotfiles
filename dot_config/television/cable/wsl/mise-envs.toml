@@ -1,0 +1,4 @@
+[[channels]]
+name = "mise-envs"
+command = """command -v mise >/dev/null && mise ls || echo 'mise not found'"""
+preview = """echo {}"""

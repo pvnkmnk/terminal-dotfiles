@@ -1,0 +1,4 @@
+[[channels]]
+name = "git-repos"
+command = """if (Test-Path $env:PROJECTS_DIR) { (Get-ChildItem -Path $env:PROJECTS_DIR -Directory -Recurse -Depth 3 -Filter '.git' -Hidden).Parent.FullName } else { 'PROJECTS_DIR not set' }"""
+preview = """Get-ChildItem -Path '{}'"""

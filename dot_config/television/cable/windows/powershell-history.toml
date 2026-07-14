@@ -1,0 +1,4 @@
+[[channels]]
+name = "powershell-history"
+command = """if (Get-PSReadLineOption) { Get-Content (Get-PSReadLineOption).HistorySavePath -Tail 100 | Select-Object -Unique } else { 'History unavailable' }"""
+preview = """echo '{}'"""

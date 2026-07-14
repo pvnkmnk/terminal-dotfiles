@@ -1,0 +1,4 @@
+[[channels]]
+name = "snippets"
+command = """if (Test-Path $env:VAULT_DIR) { Get-ChildItem -Path "$env:VAULT_DIR\snippets" -Recurse -Include *.md,*.txt -File | Select-Object -ExpandProperty FullName } else { 'VAULT_DIR not set' }"""
+preview = """Get-Content '{}' -TotalCount 30"""

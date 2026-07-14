@@ -1,0 +1,4 @@
+[[channels]]
+name = "pr-checkout"
+command = """command -v gh >/dev/null && gh pr list --limit 30 --json number,title --jq '.[] | "\(.number) \(.title)"' || echo 'gh cli not found'"""
+preview = """command -v gh >/dev/null && gh pr view $(echo {} | awk '{print $1}')"""

@@ -1,0 +1,4 @@
+[[channels]]
+name = "ssh-hosts"
+command = """if (Test-Path ~/.ssh/config) { Select-String -Path ~/.ssh/config -Pattern '^Host ' | ForEach-Object { $_.Line -replace 'Host ', '' } | Where-Object { $_ -ne '*' } } else { 'SSH config not found' }"""
+preview = """Select-String -Path ~/.ssh/config -Pattern '^Host {}' -Context 0,5"""

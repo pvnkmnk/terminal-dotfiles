@@ -1,4 +1,0 @@
-[[channels]]
-name = "process-manager"
-command = "ps -eo pid,ppid,cmd,%cpu,%mem --sort=-%cpu"
-preview = "echo 'Kill with: kill -9 $(echo {} | awk \"{print \\$1}\")'"

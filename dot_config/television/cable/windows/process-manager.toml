@@ -1,0 +1,4 @@
+[[channels]]
+name = "process-manager"
+command = """Get-Process | Sort-Object CPU -Descending | Select-Object -First 50 -ExpandProperty Name"""
+preview = """Get-Process -Name {} | Format-List *"""

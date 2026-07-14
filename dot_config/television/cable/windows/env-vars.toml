@@ -1,0 +1,4 @@
+[[channels]]
+name = "env-vars"
+command = """Get-ChildItem Env: | Where-Object Name -notmatch '(KEY|TOKEN|SECRET|PASSWORD|PASS|CREDENTIALS|AUTH)' | Select-Object -ExpandProperty Name"""
+preview = """Get-Content Env:\{}"""

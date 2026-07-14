@@ -1,0 +1,4 @@
+[[channels]]
+name = "docker-containers"
+command = """command -v docker >/dev/null && docker ps --format '{{.Names}}' || echo 'Docker not installed'"""
+preview = """command -v docker >/dev/null && docker inspect {} | jq '.[0] | {Status: .State.Status, Ports: .NetworkSettings.Ports}'"""

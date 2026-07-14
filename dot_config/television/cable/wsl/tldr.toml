@@ -1,0 +1,4 @@
+[[channels]]
+name = "tldr"
+command = """command -v tldr >/dev/null && tldr --list || echo 'tldr not found'"""
+preview = """command -v tldr >/dev/null && tldr --color always {}"""

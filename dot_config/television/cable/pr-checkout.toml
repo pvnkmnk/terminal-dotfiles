@@ -1,4 +1,0 @@
-[[channels]]
-name = "pr-checkout"
-command = "gh pr list --limit 30 --json number,title --jq '.[] | \"\\(.number) \\(.title)\"'"
-preview = "gh pr view $(echo {} | awk '{print $1}')"
